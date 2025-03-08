@@ -3,12 +3,118 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PlugRush Ad</title>
-    <script src="/zzyyrnbaxg.php"></script>
+    <title>Paint App</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: #f0f0f0;
+            margin: 0;
+        }
+        .ad-banner {
+            width: 120px;
+            height: 100vh;
+            background: #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: bold;
+            color: #333;
+            writing-mode: vertical-rl;
+            text-orientation: upright;
+        }
+        .paint-container {
+            background: #fff;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        canvas {
+            border: 2px solid #333;
+            cursor: crosshair;
+            background: white;
+        }
+        .controls {
+            margin-top: 10px;
+            display: flex;
+            gap: 10px;
+        }
+        button, input {
+            padding: 8px;
+            font-size: 14px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        button {
+            background: #007BFF;
+            color: white;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+    </style>
 </head>
 <body>
-    <a href="https://www.plugrush.com/?ref=272892" target="_blank" title="PlugRush Network is Moving Traffic Forward">
-        <img alt="PlugRush Network is Moving Traffic Forward" border="0" height="250" src="https://static.plugrush.com/img/banners/promo/PlugRush_PromoBanner_300x250_2.gif" width="300" />
-    </a>
+
+    <!-- Left Ad Banner -->
+    <div class="ad-banner">Ad Banner</div>
+
+    <!-- Paint App Container -->
+    <div class="paint-container">
+        <canvas id="paintCanvas" width="500" height="400"></canvas>
+        <div class="controls">
+            <input type="color" id="colorPicker">
+            <input type="range" id="brushSize" min="1" max="10" value="5">
+            <button onclick="clearCanvas()">Clear</button>
+        </div>
+    </div>
+
+    <!-- Right Ad Banner -->
+    <div class="ad-banner">Ad Banner</div>
+
+    <script>
+        const canvas = document.getElementById('paintCanvas');
+        const ctx = canvas.getContext('2d');
+        let painting = false;
+        
+        function startPosition(e) {
+            painting = true;
+            draw(e);
+        }
+        
+        function endPosition() {
+            painting = false;
+            ctx.beginPath();
+        }
+        
+        function draw(e) {
+            if (!painting) return;
+            ctx.lineWidth = document.getElementById('brushSize').value;
+            ctx.lineCap = "round";
+            ctx.strokeStyle = document.getElementById('colorPicker').value;
+            
+            ctx.lineTo(e.clientX - canvas.offsetLeft, e.clientY - canvas.offsetTop);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(e.clientX - canvas.offsetLeft, e.clientY - canvas.offsetTop);
+        }
+        
+        function clearCanvas() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+        
+        canvas.addEventListener('mousedown', startPosition);
+        canvas.addEventListener('mouseup', endPosition);
+        canvas.addEventListener('mousemove', draw);
+    </script>
+
 </body>
 </html>
